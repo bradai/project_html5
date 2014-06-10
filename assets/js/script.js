@@ -150,7 +150,7 @@ var cachedFileSystemTest = function () {
     return {
         initFileSystem: initFileSystem,
         loadImageToFileSystem: loadImageToFileSystem,
-        displayImage: displayImage,
+        displayImage: displayImage
     };
 }();
 $(document).ready(function () {

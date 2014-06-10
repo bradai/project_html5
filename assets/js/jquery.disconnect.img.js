@@ -4,19 +4,31 @@
             version : "1.1.1",
             debug : true,
             modal : {},
+            filesystem : {},
             consolelog :{
                 css : 'background: #DDD; color: #F60'
             },
             callback : function() {}
         }, option || {});
 
+        option.filesystem = $.extend({
+            storage_type : 'persistent' // temporary
+        },option.filesystem);
 
+        
+
+        this.initload = function(){
+            console.log("xxxxxxxxxxx");
+        };
+
+        
 
         // traverse all nodes
         this.each(function() {
 
             // express a single node as a jQuery object
-            var $this = $(this);
+            var $this = $(this),
+            LOCAL_FILE_BASEURL = "filesystem:" + window.location.origin + "/"+option.filesystem.storage+"/";
 
             $this.fn = {
                 /**
@@ -41,10 +53,11 @@
                  * @return {void} the DesconnectImg
                  */
                  init : function(){
-                    
                     $this.fn.log('Plugin "DesconnectImg" , methode "init"');
 
-                }
+                },
+
+
             } 
             // end fn
             /**
