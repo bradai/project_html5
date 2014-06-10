@@ -24,22 +24,17 @@ var cachedFileSystemTest = function () {
                 "img2.jpg",
             ];
             //  alert('RAPPEL : ' + tab_img[1]);
-            var a = tab_img[0];
-            var b = tab_img[1];
-            xhrDownloadImage(a, function (imageAsBlob) {
-                saveImageToFileSystem(imageAsBlob, a, function () {
-                    // alert(a);
-                    // console.log(imageAsBlob);
-                    callback();
-                });
-            });
-            xhrDownloadImage(b, function (imageAsBlob) {
-                saveImageToFileSystem(imageAsBlob, b, function () {
-                    // alert(a);
-                    // console.log(imageAsBlob);
-                    callback();
-                });
-            });
+             for (var i = 0; i < tab_img.length; i++) {
+                    var elm = tab_img[i];
+                setTimeout(xhrDownloadImage(elm, function(imageAsBlob) {
+                    saveImageToFileSystem(imageAsBlob, elm, function() {
+                        // alert(a);
+                        // console.log(imageAsBlob);
+                        callback();
+                    });
+                }), 1000);
+                }
+          
         },
         /* -------------------------- */
         displayImage = function (callback) {
@@ -127,6 +122,7 @@ var cachedFileSystemTest = function () {
             } else {
                 result = null;
             }
+			 saveImageToFileSystem(result, url ,callback());
             callback(result);
             //  saveImageToFileSystem(callback(result), url);
         };
