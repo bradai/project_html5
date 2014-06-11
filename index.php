@@ -96,7 +96,7 @@
 
 </div>
 <script type="text/javascript" src="assets/library/jquery/js/jquery.min.js"></script>
-<script src="assets/js/jquery.disconnect.img.js"></script>
+<!-- <script src="assets/js/jquery.disconnect.img.js"></script> -->
 <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 var cachedFileSystemTest = function () {
-    var LOCAL_FILE_BASEURL = "filesystem:" + window.location.origin + "/persistent/";
+    var LOCAL_FILE_BASEURL = "";
     //var LOCAL_FILE_BASEURL = "filesystem:" + window.location.origin + "/temporary/";
     //var type = window.TEMPORARY;
-    var type = window.PERSISTENT;
+    var type = window.TEMPORARY;
     var initFileSystem = function (callback) {
             console.log("initFileSystem:");
 
@@ -91,6 +91,8 @@ var cachedFileSystemTest = function () {
         img.onload = function () {
             callback(img);
         };
+
+                alert(LOCAL_FILE_BASEURL);
         img.src = LOCAL_FILE_BASEURL + "img1.jpg" + "?rnd=" + new Date().getTime();
         // img2.src = LOCAL_FILE_BASEURL + "img2.jpg" + "?rnd=" + new Date().getTime();
     };
@@ -154,7 +156,9 @@ var cachedFileSystemTest = function () {
     };
 }();
 $(document).ready(function () {
-    cachedFileSystemTest.initFileSystem(function () {});
-    cachedFileSystemTest.loadImageToFileSystem(function () {});
-    cachedFileSystemTest.displayImage(function () {});
+     cachedFileSystemTest.initFileSystem(function () {
+        cachedFileSystemTest.loadImageToFileSystem(function () {
+            cachedFileSystemTest.displayImage(function () {});
+        });    
+    });
 });

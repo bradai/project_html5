@@ -4,6 +4,7 @@
         option = $.extend({
             version : "1.1.1",
             debug : true,
+            request_quota : 20, // 20Mo
             modal : {},
             filesystem : {},
             consolelog : {},
@@ -18,7 +19,8 @@
             storage_type : 'persistent' // temporary
         }, option.filesystem);
 
-        // var LOCAL_FILE_BASEURL = "filesystem:" + window.location.origin + "/" + option.filesystem.storage_type + "/";
+        var _bytes = 1024,
+            _local_file_baseurl = "filesystem:" + window.location.origin + "/" + option.filesystem.storage_type + "/";
 
         this.extend({
             /**
@@ -44,7 +46,41 @@
              */
             init : function () {
                 this.log('Plugin "DesconnectImg" , methode "init"');
-            }
+            },
+            /**
+             * GetRequestQuota
+             *
+             * @author 2A
+             * @this {DesconnectImg}
+             * @function getRequestQuota
+             * @return {void} the DesconnectImg
+             */
+            getRequestQuota : function () {
+                return option.request_quota * _bytes * _bytes;
+            },
+            /**
+             * InitFileSystem
+             *
+             * @author 2A
+             * @this {DesconnectImg}
+             * @function initFileSystem
+             * @return {void} the DesconnectImg
+             */
+            initFileSystem : function (callback) {
+                this.log('Plugin "DesconnectImg" , methode "initFileSystem"');
+                callback = callback || function () {};
+                function onInitFs(fs) {
+                    console.log('Opened file system: ' + fs.name);
+                    _local_file_baseurl = fs.root.toURL();
+                    return callback();
+                }
+                window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+                navigator.persistentStorage = navigator.persistentStorage || navigator.webkitPersistentStorage;
+                navigator.persistentStorage.requestQuota( this.getRequestQuota() , function (grantedBytes) {
+                    window.requestFileSystem(type, grantedBytes, onInitFs, errorHandler);
+                }, errorHandler);
+            },
+
 
         });
 
