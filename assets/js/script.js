@@ -26,13 +26,13 @@ var cachedFileSystemTest = function () {
             //  alert('RAPPEL : ' + tab_img[1]);
              for (var i = 0; i < tab_img.length; i++) {
                     var elm = tab_img[i];
-                setTimeout(xhrDownloadImage(elm, function(imageAsBlob) {
+               xhrDownloadImage(elm, function(imageAsBlob) {
                     saveImageToFileSystem(imageAsBlob, elm, function() {
                         // alert(a);
                         // console.log(imageAsBlob);
                         callback();
                     });
-                }), 1000);
+                })
                 }
           
         },
@@ -47,19 +47,6 @@ var cachedFileSystemTest = function () {
                 $("#imgContainer2").empty().append(image);
                 callback();
             });
-        },
-        clearFileSystemEntries = function (callback) {
-            console.log("clearFileSystemEntries:");
-            window.requestFileSystem(type, 5 * 1024 * 1024 /*5MB*/ , function (fs) {
-                fs.root.getFile('img2.jpg', {
-                    create: false
-                }, function (fileEntry) {
-                    fileEntry.remove(function () {
-                        console.log("'img2.jpg' has been deleted");
-                        callback();
-                    }, errorHandler);
-                }, errorHandler);
-            }, errorHandler);
         };
 
     function errorHandler(e) {
@@ -92,7 +79,6 @@ var cachedFileSystemTest = function () {
             callback(img);
         };
 
-                alert(LOCAL_FILE_BASEURL);
         img.src = LOCAL_FILE_BASEURL + "img1.jpg" + "?rnd=" + new Date().getTime();
         // img2.src = LOCAL_FILE_BASEURL + "img2.jpg" + "?rnd=" + new Date().getTime();
     };
@@ -124,7 +110,7 @@ var cachedFileSystemTest = function () {
             } else {
                 result = null;
             }
-			 saveImageToFileSystem(result, url ,callback());
+			saveImageToFileSystem(result, url ,callback());
             callback(result);
             //  saveImageToFileSystem(callback(result), url);
         };
